@@ -3,15 +3,6 @@
 	<schema name="INSTANCE" catalogname="Real_Estate_Sales_dw_lgl" >
 		<table name="dim_date" prior="Entity" >
 			<column name="date_id" type="BIGINT" jt="-5" mandatory="y" />
-			<column name="yearNumber" prior="year" type="INT" jt="4" />
-			<column name="monthNumber" type="INT" jt="4" />
-			<column name="quarter" type="INT" jt="4" />
-			<column name="dayNumber" prior="daynumber" type="INT" jt="4" />
-			<column name="dayName" prior="dayname" type="VARCHAR" length="50" jt="12" />
-			<column name="monthName" type="VARCHAR" length="50" jt="12" />
-			<column name="weekoftheMonth" type="INT" jt="4" />
-			<column name="weekoftheYear" type="INT" jt="4" />
-			<column name="dateIsoformat" type="DATETIME" jt="93" />
 			<index name="pk_dim_date" unique="PRIMARY_KEY" >
 				<column name="date_id" />
 			</index>
@@ -28,7 +19,7 @@
 		</table>
 		<table name="dim_nonUseCode" prior="dim_onUseCode" >
 			<column name="nonUseCode_id" type="INT" jt="4" mandatory="y" />
-			<column name="nonUseCode" prior="non_Use_Code" type="VARCHAR" length="50" jt="12" />
+			<column name="non_Use_Code" type="VARCHAR" length="50" jt="12" />
 			<index name="pk_dim_nonUseCode" unique="PRIMARY_KEY" >
 				<column name="nonUseCode_id" />
 			</index>

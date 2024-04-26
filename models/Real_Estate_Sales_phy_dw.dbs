@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Real_Estate_Sales_dw_lgl" id="GoogleBigQuery-22e5" database="GoogleBigQuery" >
+	<schema name="INSTANCE" catalogname="Real_Estate_Sales_dw_lgl" >
+		<table name="dim_date" >
+			<column name="date_id" type="int64" jt="4" mandatory="y" />
+			<column name="yearNumber" type="int64" jt="4" />
+			<column name="monthNumber" type="int64" jt="4" />
+			<column name="quarter" type="int64" jt="4" />
+			<column name="dayNumber" type="int64" jt="4" />
+			<column name="dayName" type="int64" length="50" jt="4" />
+			<column name="monthName" type="int64" length="50" jt="4" />
+			<column name="weekoftheMonth" type="int64" jt="4" />
+			<column name="weekoftheYear" type="int64" jt="4" />
+			<column name="dateIsoformat" type="datetime" jt="93" />
+			<index name="pk_dim_date" unique="PRIMARY_KEY" >
+				<column name="date_id" />
+			</index>
+		</table>
+		<table name="dim_location" >
+			<column name="location_id" type="int64" jt="4" mandatory="y" />
+			<column name="town" type="int64" length="25" jt="4" />
+			<column name="address" type="int64" length="100" jt="4" />
+			<column name="latitude" type="bignumeric" jt="8" />
+			<column name="longitude" type="bignumeric" jt="8" />
+			<index name="pk_dim_location" unique="PRIMARY_KEY" >
+				<column name="location_id" />
+			</index>
+		</table>
+		<table name="dim_nonUseCode" >
+			<column name="nonUseCode_id" type="int64" jt="4" mandatory="y" />
+			<column name="nonUseCode" type="int64" length="50" jt="4" />
+			<index name="pk_dim_nonUseCode" unique="PRIMARY_KEY" >
+				<column name="nonUseCode_id" />
+			</index>
+		</table>
+		<table name="dim_propertyType" >
+			<column name="propertyType_id" type="int64" jt="4" mandatory="y" />
+			<column name="propertyType" type="int64" length="50" jt="4" />
+			<index name="pk_dim_propertyType" unique="PRIMARY_KEY" >
+				<column name="propertyType_id" />
+			</index>
+		</table>
+		<table name="dim_remarks" >
+			<column name="remarks_id" type="int64" jt="4" mandatory="y" />
+			<column name="assessorRemarks" type="int64" length="255" jt="4" />
+			<column name="opmRemarks" type="int64" length="255" jt="4" />
+			<index name="pk_dim_remarks" unique="PRIMARY_KEY" >
+				<column name="remarks_id" />
+			</index>
+		</table>
+		<table name="dim_residentialType" >
+			<column name="residentialType_id" type="int64" jt="4" mandatory="y" />
+			<column name="residentialType" type="int64" length="50" jt="4" />
+			<index name="pk_dim_residentialType" unique="PRIMARY_KEY" >
+				<column name="residentialType_id" />
+			</index>
+		</table>
+		<table name="facts_RESales" >
+			<column name="fact_id" type="int64" jt="4" mandatory="y" />
+			<column name="sale_amount" type="numeric" length="12" decimal="2" jt="2" />
+			<column name="assessed_value" type="numeric" length="11" decimal="2" jt="2" />
+			<column name="sales_ratio" type="numeric" length="12" decimal="12" jt="2" />
+			<column name="location_id" type="int64" jt="4" mandatory="y" />
+			<column name="propertyType_id" type="int64" jt="4" />
+			<column name="residentialType_id" type="int64" jt="4" />
+			<column name="nonUseCode_id" type="int64" jt="4" />
+			<column name="remarks_id" type="int64" jt="4" />
+			<column name="date_id" type="int64" jt="4" />
+			<index name="pk_facts_RESales" unique="PRIMARY_KEY" >
+				<column name="fact_id" />
+				<column name="location_id" />
+			</index>
+			<index name="unq_propertyType_id" unique="UNIQUE_INDEX" >
+				<column name="propertyType_id" />
+			</index>
+			<index name="unq_residentialType_id" unique="UNIQUE_INDEX" >
+				<column name="residentialType_id" />
+			</index>
+			<index name="unq_nonUseCode_id" unique="UNIQUE_INDEX" >
+				<column name="nonUseCode_id" />
+			</index>
+			<index name="unq_remarks_id" unique="UNIQUE_INDEX" >
+				<column name="remarks_id" />
+			</index>
+			<index name="unq_date_id" unique="UNIQUE_INDEX" >
+				<column name="date_id" />
+			</index>
+			<fk name="fk_facts_RESales_dim_location" virtual="y" to_schema="Real_Estate_Sales_dw_lgl.INSTANCE" to_table="dim_location" >
+				<fk_column name="location_id" pk="location_id" />
+			</fk>
+			<fk name="fk_facts_RESales_dim_propertyType" virtual="y" to_schema="Real_Estate_Sales_dw_lgl.INSTANCE" to_table="dim_propertyType" >
+				<fk_column name="propertyType_id" pk="propertyType_id" />
+			</fk>
+			<fk name="fk_facts_RESales_dim_nonUseCode" virtual="y" to_schema="Real_Estate_Sales_dw_lgl.INSTANCE" to_table="dim_nonUseCode" >
+				<fk_column name="nonUseCode_id" pk="nonUseCode_id" />
+			</fk>
+			<fk name="fk_facts_RESales_dim_residentialType" virtual="y" to_schema="Real_Estate_Sales_dw_lgl.INSTANCE" to_table="dim_residentialType" >
+				<fk_column name="residentialType_id" pk="residentialType_id" />
+			</fk>
+			<fk name="fk_facts_RESales_dim_date" virtual="y" to_schema="Real_Estate_Sales_dw_lgl.INSTANCE" to_table="dim_date" >
+				<fk_column name="date_id" pk="date_id" />
+			</fk>
+			<fk name="fk_facts_RESales_dim_remarks" virtual="y" to_schema="Real_Estate_Sales_dw_lgl.INSTANCE" to_table="dim_remarks" >
+				<fk_column name="remarks_id" pk="remarks_id" />
+			</fk>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout-13bd" confirmed="y" show_relation="columns" >
+		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_date" color="C1D8EE" x="784" y="448" />
+		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_location" color="C1D8EE" x="736" y="128" />
+		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_nonUseCode" color="C1D8EE" x="128" y="400" />
+		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_propertyType" color="C1D8EE" x="144" y="224" />
+		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_remarks" color="C1D8EE" x="864" y="304" />
+		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_residentialType" color="C1D8EE" x="432" y="608" />
+		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="facts_RESales" color="C1D8EE" x="464" y="224" />
+		<callout x="48" y="48" pointer="Round" >
+			<comment><![CDATA[This is a layout - a diagram with tools.
+- Create new entities by right-clicking the layout. 
+- Double-click entity headers to edit.
+- For a better understanding of the schema, create multiple layouts.
+- Deploy the model into the database by converting it first to the physical design.]]></comment>
+		</callout>
+		<script name="SQL_Editor" id="Editor-965" language="SQL" >
+			<string><![CDATA[CREATE SCHEMA INSTANCE;
+
+CREATE TABLE Real_Estate_Sales_dw_lgl.INSTANCE.dim_date ( 
+	date_id int64 NOT NULL  ,
+	yearNumber int64  ,
+	monthNumber int64  ,
+	quarter int64  ,
+	dayNumber int64  ,
+	dayName int64  ,
+	monthName int64  ,
+	weekoftheMonth int64  ,
+	weekoftheYear int64  ,
+	dateIsoformat datetime  
+ );
+
+ALTER TABLE Real_Estate_Sales_dw_lgl.INSTANCE.dim_date ADD PRIMARY KEY ( date_id )  NOT ENFORCED;
+
+CREATE TABLE Real_Estate_Sales_dw_lgl.INSTANCE.dim_location ( 
+	location_id int64 NOT NULL  ,
+	town int64  ,
+	address int64  ,
+	latitude bignumeric  ,
+	longitude bignumeric  
+ );
+
+ALTER TABLE Real_Estate_Sales_dw_lgl.INSTANCE.dim_location ADD PRIMARY KEY ( location_id )  NOT ENFORCED;
+
+CREATE TABLE Real_Estate_Sales_dw_lgl.INSTANCE.dim_nonUseCode ( 
+	nonUseCode_id int64 NOT NULL  ,
+	nonUseCode int64  
+ );
+
+ALTER TABLE Real_Estate_Sales_dw_lgl.INSTANCE.dim_nonUseCode ADD PRIMARY KEY ( nonUseCode_id )  NOT ENFORCED;
+
+CREATE TABLE Real_Estate_Sales_dw_lgl.INSTANCE.dim_propertyType ( 
+	propertyType_id int64 NOT NULL  ,
+	propertyType int64  
+ );
+
+ALTER TABLE Real_Estate_Sales_dw_lgl.INSTANCE.dim_propertyType ADD PRIMARY KEY ( propertyType_id )  NOT ENFORCED;
+
+CREATE TABLE Real_Estate_Sales_dw_lgl.INSTANCE.dim_remarks ( 
+	remarks_id int64 NOT NULL  ,
+	assessorRemarks int64  ,
+	opmRemarks int64  
+ );
+
+ALTER TABLE Real_Estate_Sales_dw_lgl.INSTANCE.dim_remarks ADD PRIMARY KEY ( remarks_id )  NOT ENFORCED;
+
+CREATE TABLE Real_Estate_Sales_dw_lgl.INSTANCE.dim_residentialType ( 
+	residentialType_id int64 NOT NULL  ,
+	residentialType int64  
+ );
+
+ALTER TABLE Real_Estate_Sales_dw_lgl.INSTANCE.dim_residentialType ADD PRIMARY KEY ( residentialType_id )  NOT ENFORCED;
+
+CREATE TABLE Real_Estate_Sales_dw_lgl.INSTANCE.facts_RESales ( 
+	fact_id int64 NOT NULL  ,
+	sale_amount numeric  ,
+	assessed_value numeric  ,
+	sales_ratio numeric  ,
+	location_id int64 NOT NULL  ,
+	propertyType_id int64  ,
+	residentialType_id int64  ,
+	nonUseCode_id int64  ,
+	remarks_id int64  ,
+	date_id int64  
+ );
+
+ALTER TABLE Real_Estate_Sales_dw_lgl.INSTANCE.facts_RESales ADD PRIMARY KEY ( fact_id, location_id )  NOT ENFORCED;
+]]></string>
+		</script>
+	</layout>
+</project>
