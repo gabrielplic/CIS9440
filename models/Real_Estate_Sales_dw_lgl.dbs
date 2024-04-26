@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Real_Estate_Sales_dw_lgl" id="LogicalDesign-81a" database="LogicalDesign" >
+	<schema name="INSTANCE" catalogname="LAcrimes_dw_lgl" >
+		<table name="dim_location" prior="Entity" >
+			<column name="location_id" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="town" type="VARCHAR" length="25" jt="12" />
+			<column name="address" type="VARCHAR" length="100" jt="12" />
+			<column name="latitude" type="DOUBLE" jt="8" />
+			<column name="longitude" type="DOUBLE" jt="8" />
+			<index name="pk_dim_location" unique="PRIMARY_KEY" >
+				<column name="location_id" />
+			</index>
+		</table>
+		<table name="facts_RESales" prior="facts_RE_" >
+			<column name="fact_id" type="BIGINT" jt="-5" mandatory="y" />
+			<column name="sale_amount" type="DECIMAL" length="12" decimal="2" jt="3" />
+			<column name="assessed_value" type="DECIMAL" length="11" decimal="2" jt="3" />
+			<column name="sales_ratio" type="DECIMAL" length="12" decimal="12" jt="3" />
+			<column name="location_id" type="INT" jt="4" mandatory="y" />
+			<index name="pk_facts_RESales" unique="PRIMARY_KEY" >
+				<column name="fact_id" />
+				<column name="location_id" />
+			</index>
+			<fk name="fk_facts_RESales_dim_location" virtual="y" to_schema="LAcrimes_dw_lgl.INSTANCE" to_table="dim_location" type="Identifying" mandatory="y" cardinality="ZeroMore" range_from="0" range_to="0" >
+				<fk_column name="location_id" pk="location_id" />
+			</fk>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout-1551" show_relation="columns" >
+		<entity schema="LAcrimes_dw_lgl.INSTANCE" name="dim_location" color="C1D8EE" x="736" y="224" />
+		<entity schema="LAcrimes_dw_lgl.INSTANCE" name="facts_RESales" color="C1D8EE" x="480" y="288" />
+		<callout x="48" y="48" pointer="Round" >
+			<comment><![CDATA[This is a layout - a diagram with tools.
+- Create new entities by right-clicking the layout. 
+- Double-click entity headers to edit.
+- For a better understanding of the schema, create multiple layouts.
+- Deploy the model into the database by converting it first to the physical design.]]></comment>
+		</callout>
+	</layout>
+</project>
