@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="Real_Estate_Sales_dw_lgl" id="PostgreSQL" database="PostgreSQL" >
-    <schema name="INSTANCE" catalogname="Real_Estate_Sales_dw_lgl" >
+    <schema name="Real_Estate_Sales" catalogname="Real_Estate_Sales_dw_lgl" >
         <table name="dim_date" >
             <column name="date_id" type="integer" jt="4" mandatory="y" />
-            <column name="yearNumber" type="integer" jt="4" />
-            <column name="monthNumber" type="integer" jt="4" />
-            <column name="quarter" type="integer" jt="4" />
-            <column name="dayNumber" type="integer" jt="4" />
-            <column name="dayName" type="varchar" length="100" jt="12" />
-            <column name="monthName" type="varchar" length="100" jt="12" />
-            <column name="weekoftheMonth" type="integer" jt="4" />
-            <column name="weekoftheYear" type="integer" jt="4" />
-            <column name="dateIsoformat" type="date" jt="91" />
+            <column name="date_iso_format" type="date" jt="91" />
+            <column name="year_number" type="integer" jt="4" />
+            <column name="month_number" type="integer" jt="4" />
+            <column name="day_number" type="integer" jt="4" />
+            <column name="quarter_number" type="integer" jt="4" />
+            <column name="month_name" type="varchar" length="100" jt="12" />
+            <column name="day_name" type="varchar" length="100" jt="12" />
+            <column name="week_of_year" type="integer" jt="4" />
+            <column name="week_of_month" type="integer" jt="4" />
             <index name="pk_dim_date" unique="PRIMARY_KEY" >
                 <column name="date_id" />
             </index>
@@ -40,12 +40,13 @@
         </table>
         <table name="facts_RESales" >
             <column name="fact_id" type="integer" jt="4" mandatory="y" />
-            <column name="sale_amount" type="numeric" length="12" decimal="2" jt="2" />
-            <column name="assessed_value" type="numeric" length="11" decimal="2" jt="2" />
-            <column name="sales_ratio" type="numeric" length="12" decimal="12" jt="2" />
+            <column name="sale_amount" type="numeric" jt="2" />
+            <column name="assessed_value" type="numeric" jt="2" />
+            <column name="sales_ratio" type="numeric" jt="2" />
             <column name="location_id" type="integer" jt="4" mandatory="y" />
             <column name="propertyType_id" type="integer" jt="4" />
             <column name="residentialType_id" type="integer" jt="4" />
+            <column name="date_id" type="integer" jt="4" />
             <index name="pk_facts_RESales" unique="PRIMARY_KEY" >
                 <column name="fact_id" />
                 <column name="location_id" />
@@ -53,11 +54,11 @@
         </table>
     </schema>
     <layout name="Default Layout" id="Layout-13bd" confirmed="y" show_relation="columns" >
-        <entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_date" color="C1D8EE" x="784" y="448" />
-        <entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_location" color="C1D8EE" x="736" y="128" />
-        <entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_propertyType" color="C1D8EE" x="144" y="224" />
-        <entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_residentialType" color="C1D8EE" x="432" y="608" />
-        <entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="facts_RESales" color="C1D8EE" x="464" y="224" />
+        <entity schema="Real_Estate_Sales_dw_lgl.Real_Estate_Sales" name="dim_date" color="C1D8EE" x="784" y="448" />
+        <entity schema="Real_Estate_Sales_dw_lgl.Real_Estate_Sales" name="dim_location" color="C1D8EE" x="736" y="128" />
+        <entity schema="Real_Estate_Sales_dw_lgl.Real_Estate_Sales" name="dim_propertyType" color="C1D8EE" x="144" y="224" />
+        <entity schema="Real_Estate_Sales_dw_lgl.Real_Estate_Sales" name="dim_residentialType" color="C1D8EE" x="432" y="608" />
+        <entity schema="Real_Estate_Sales_dw_lgl.Real_Estate_Sales" name="facts_RESales" color="C1D8EE" x="464" y="224" />
         <callout x="48" y="48" pointer="Round" >
             <comment><![CDATA[This is a layout - a diagram with tools.
 - Create new entities by right-clicking the layout. 
@@ -70,18 +71,18 @@
 
 CREATE TABLE RE_Sales.dim_date ( 
     date_id integer NOT NULL  ,
-    yearNumber integer  ,
-    monthNumber integer  ,
-    quarter integer  ,
-    dayNumber integer  ,
-    dayName varchar(100)  ,
-    monthName varchar(100)  ,
-    weekoftheMonth integer  ,
-    weekoftheYear integer  ,
-    dateIsoformat date  
+    date_iso_format date  ,
+    year_number integer  ,
+    month_number integer  ,
+    day_number integer  ,
+    quarter_number integer  ,
+    month_name varchar(100)  ,
+    day_name varchar(100)  ,
+    week_of_year integer  ,
+    week_of_month integer  
  );
 
-ALTER TABLE RE_Sales.dim_date ADD PRIMARY KEY ( date_id );
+ALTER TABLE RE_Sales.dim_date ADD PRIMARY KEY (date_id);
 
 CREATE TABLE RE_Sales.dim_location ( 
     location_id integer NOT NULL  ,
@@ -89,33 +90,34 @@ CREATE TABLE RE_Sales.dim_location (
     address varchar(255)  
  );
 
-ALTER TABLE RE_Sales.dim_location ADD PRIMARY KEY ( location_id );
+ALTER TABLE RE_Sales.dim_location ADD PRIMARY KEY (location_id);
 
 CREATE TABLE RE_Sales.dim_propertyType ( 
     propertyType_id integer NOT NULL  ,
     propertyType varchar(255)  
  );
 
-ALTER TABLE RE_Sales.dim_propertyType ADD PRIMARY KEY ( propertyType_id );
+ALTER TABLE RE_Sales.dim_propertyType ADD PRIMARY KEY (propertyType_id);
 
 CREATE TABLE RE_Sales.dim_residentialType ( 
     residentialType_id integer NOT NULL  ,
     residentialType varchar(255)  
  );
 
-ALTER TABLE RE_Sales.dim_residentialType ADD PRIMARY KEY ( residentialType_id );
+ALTER TABLE RE_Sales.dim_residentialType ADD PRIMARY KEY (residentialType_id);
 
 CREATE TABLE RE_Sales.facts_RESales ( 
     fact_id integer NOT NULL  ,
-    sale_amount numeric(12, 2)  ,
-    assessed_value numeric(11, 2)  ,
-    sales_ratio numeric(12, 12)  ,
+    sale_amount numeric  ,
+    assessed_value numeric  ,
+    sales_ratio numeric  ,
     location_id integer NOT NULL  ,
     propertyType_id integer  ,
-    residentialType_id integer  
+    residentialType_id integer  ,
+    date_id integer  
  );
 
-ALTER TABLE RE_Sales.facts_RESales ADD PRIMARY KEY ( fact_id, location_id );
+ALTER TABLE RE_Sales.facts_RESales ADD PRIMARY KEY (fact_id, location_id);
 ]]></string>
         </script>
     </layout>
