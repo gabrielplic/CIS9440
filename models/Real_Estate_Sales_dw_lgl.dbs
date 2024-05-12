@@ -3,57 +3,39 @@
 	<schema name="INSTANCE" catalogname="Real_Estate_Sales_dw_lgl" >
 		<table name="dim_date" prior="Entity" >
 			<column name="date_id" type="BIGINT" jt="-5" mandatory="y" />
-			<column name="yearNumber" prior="year" type="INT" jt="4" />
-			<column name="monthNumber" type="INT" jt="4" />
-			<column name="quarter" type="INT" jt="4" />
-			<column name="dayNumber" prior="daynumber" type="INT" jt="4" />
-			<column name="dayName" prior="dayname" type="VARCHAR" length="50" jt="12" />
-			<column name="monthName" type="VARCHAR" length="50" jt="12" />
-			<column name="weekoftheMonth" type="INT" jt="4" />
-			<column name="weekoftheYear" type="INT" jt="4" />
-			<column name="dateIsoformat" type="DATETIME" jt="93" />
-			<column name="listYear" type="INT" jt="4" />
+			<column name="date_iso_format" prior="dateIsoformat" type="DATE" jt="91" />
+			<column name="year_number" prior="yearNumber" type="INT" jt="4" />
+			<column name="month_number" prior="monthNumber" type="INT" jt="4" />
+			<column name="day_number" prior="dayNumber" type="INT" jt="4" />
+			<column name="quarter_number" prior="quarter" type="INT" jt="4" />
+			<column name="month_name" prior="monthName" type="VARCHAR" length="50" jt="12" />
+			<column name="day_name" prior="dayName" type="VARCHAR" length="50" jt="12" />
+			<column name="week_of_year" prior="weekofYear" type="INT" jt="4" />
+			<column name="week_of_month" prior="weekofMonth" type="INT" jt="4" />
 			<index name="pk_dim_date" unique="PRIMARY_KEY" >
 				<column name="date_id" />
 			</index>
 		</table>
 		<table name="dim_location" prior="Entity" >
 			<column name="location_id" type="BIGINT" jt="-5" mandatory="y" />
-			<column name="town" type="VARCHAR" length="25" jt="12" />
+			<column name="town" type="VARCHAR" length="30" jt="12" />
 			<column name="address" type="VARCHAR" length="100" jt="12" />
-			<column name="latitude" type="DOUBLE" jt="8" />
-			<column name="longitude" type="DOUBLE" jt="8" />
 			<index name="pk_dim_location" unique="PRIMARY_KEY" >
 				<column name="location_id" />
 			</index>
 		</table>
-		<table name="dim_nonUseCode" prior="dim_onUseCode" >
-			<column name="nonUseCode_id" type="INT" jt="4" mandatory="y" />
-			<column name="nonUseCode" prior="non_Use_Code" type="VARCHAR" length="50" jt="12" />
-			<index name="pk_dim_nonUseCode" unique="PRIMARY_KEY" >
-				<column name="nonUseCode_id" />
-			</index>
-		</table>
 		<table name="dim_propertyType" prior="Entity" >
-			<column name="propertyType_id" type="INT" jt="4" mandatory="y" />
-			<column name="propertyType" type="VARCHAR" length="50" jt="12" />
+			<column name="property_type_id" prior="propertyType_id" type="INT" jt="4" mandatory="y" />
+			<column name="property_type" prior="propertyType" type="VARCHAR" length="50" jt="12" />
 			<index name="pk_dim_propertyType" unique="PRIMARY_KEY" >
-				<column name="propertyType_id" />
-			</index>
-		</table>
-		<table name="dim_remarks" prior="Entity" >
-			<column name="remarks_id" type="INT" jt="4" mandatory="y" />
-			<column name="assessorRemarks" type="VARCHAR" length="255" jt="12" />
-			<column name="opmRemarks" type="VARCHAR" length="255" jt="12" />
-			<index name="pk_dim_remarks" unique="PRIMARY_KEY" >
-				<column name="remarks_id" />
+				<column name="property_type_id" />
 			</index>
 		</table>
 		<table name="dim_residentialType" prior="Entity" >
-			<column name="residentialType_id" type="INT" jt="4" mandatory="y" />
-			<column name="residentialType" type="VARCHAR" length="50" jt="12" />
+			<column name="residential_type_id" prior="residentialType_id" type="INT" jt="4" mandatory="y" />
+			<column name="residential_type" prior="residentialType" type="VARCHAR" length="50" jt="12" />
 			<index name="pk_dim_residentialType" unique="PRIMARY_KEY" >
-				<column name="residentialType_id" />
+				<column name="residential_type_id" />
 			</index>
 		</table>
 		<table name="facts_RESales" prior="facts_RE_" >
@@ -62,26 +44,14 @@
 			<column name="assessed_value" type="DECIMAL" length="11" decimal="2" jt="3" />
 			<column name="sales_ratio" type="DECIMAL" length="12" decimal="12" jt="3" />
 			<column name="location_id" type="INT" jt="4" mandatory="y" />
-			<column name="propertyType_id" type="INT" jt="4" />
-			<column name="residentialType_id" type="INT" jt="4" />
-			<column name="nonUseCode_id" prior="NonUseCode_id" type="INT" jt="4" />
-			<column name="remarks_id" type="INT" jt="4" />
+			<column name="property_type_id" prior="propertyType_id" type="INT" jt="4" />
+			<column name="residential_type_id" prior="residentialType_id" type="INT" jt="4" />
 			<column name="date_id" type="INT" jt="4" />
-			<index name="pk_facts_RESales" unique="PRIMARY_KEY" >
-				<column name="fact_id" />
-				<column name="location_id" />
-			</index>
 			<index name="unq_propertyType_id" unique="UNIQUE_INDEX" >
-				<column name="propertyType_id" />
+				<column name="property_type_id" />
 			</index>
 			<index name="unq_residentialType_id" unique="UNIQUE_INDEX" >
-				<column name="residentialType_id" />
-			</index>
-			<index name="unq_nonUseCode_id" unique="UNIQUE_INDEX" >
-				<column name="nonUseCode_id" />
-			</index>
-			<index name="unq_remarks_id" unique="UNIQUE_INDEX" >
-				<column name="remarks_id" />
+				<column name="residential_type_id" />
 			</index>
 			<index name="unq_date_id" unique="UNIQUE_INDEX" >
 				<column name="date_id" />
@@ -90,30 +60,22 @@
 				<fk_column name="location_id" pk="location_id" />
 			</fk>
 			<fk name="fk_facts_RESales_dim_propertyType" virtual="y" to_schema="Real_Estate_Sales_dw_lgl.INSTANCE" to_table="dim_propertyType" type="NonIdentifying" mandatory="n" cardinality="OneMore" range_from="0" range_to="0" >
-				<fk_column name="propertyType_id" pk="propertyType_id" />
-			</fk>
-			<fk name="fk_facts_RESales_dim_nonUseCode" virtual="y" to_schema="Real_Estate_Sales_dw_lgl.INSTANCE" to_table="dim_nonUseCode" type="NonIdentifying" mandatory="n" cardinality="OneMore" range_from="0" range_to="0" >
-				<fk_column name="nonUseCode_id" pk="nonUseCode_id" />
+				<fk_column name="property_type_id" pk="property_type_id" />
 			</fk>
 			<fk name="fk_facts_RESales_dim_residentialType" virtual="y" to_schema="Real_Estate_Sales_dw_lgl.INSTANCE" to_table="dim_residentialType" type="NonIdentifying" mandatory="n" cardinality="OneMore" range_from="0" range_to="0" >
-				<fk_column name="residentialType_id" pk="residentialType_id" />
+				<fk_column name="residential_type_id" pk="residential_type_id" />
 			</fk>
 			<fk name="fk_facts_RESales_dim_date" virtual="y" to_schema="Real_Estate_Sales_dw_lgl.INSTANCE" to_table="dim_date" type="NonIdentifying" mandatory="n" cardinality="OneMore" range_from="0" range_to="0" >
 				<fk_column name="date_id" pk="date_id" />
 			</fk>
-			<fk name="fk_facts_RESales_dim_remarks" virtual="y" to_schema="Real_Estate_Sales_dw_lgl.INSTANCE" to_table="dim_remarks" type="NonIdentifying" mandatory="n" cardinality="OneMore" range_from="0" range_to="0" >
-				<fk_column name="remarks_id" pk="remarks_id" />
-			</fk>
 		</table>
 	</schema>
 	<layout name="Default Layout" id="Layout-1551" show_relation="columns" >
-		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_date" color="C1D8EE" x="784" y="448" />
-		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_location" color="C1D8EE" x="736" y="128" />
-		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_nonUseCode" color="C1D8EE" x="128" y="400" />
-		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_propertyType" color="C1D8EE" x="144" y="224" />
-		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_remarks" color="C1D8EE" x="864" y="304" />
-		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_residentialType" color="C1D8EE" x="432" y="608" />
-		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="facts_RESales" color="C1D8EE" x="464" y="224" />
+		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_date" color="C1D8EE" x="704" y="352" />
+		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_location" color="C1D8EE" x="720" y="192" />
+		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_propertyType" color="C1D8EE" x="176" y="288" />
+		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="dim_residentialType" color="C1D8EE" x="448" y="480" />
+		<entity schema="Real_Estate_Sales_dw_lgl.INSTANCE" name="facts_RESales" color="C1D8EE" x="448" y="192" />
 		<callout x="48" y="48" pointer="Round" >
 			<comment><![CDATA[This is a layout - a diagram with tools.
 - Create new entities by right-clicking the layout. 
