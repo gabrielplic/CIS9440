@@ -30,21 +30,21 @@ ALTER TABLE RE_Sales.dim_location ADD PRIMARY KEY (location_id);
 
 -- Create dim_propertyType table
 CREATE TABLE RE_Sales.dim_propertyType (
-	propertyType_id INT NOT NULL,
-	propertyType VARCHAR(255) -- Adjusted if it's a string code or description
+	property_type_id INT NOT NULL,
+	property_type VARCHAR(255) -- Adjusted if it's a string code or description
 );
 
 -- Add primary key to dim_propertyType
-ALTER TABLE RE_Sales.dim_propertyType ADD PRIMARY KEY (propertyType_id);
+ALTER TABLE RE_Sales.dim_propertyType ADD PRIMARY KEY (property_type_id);
 
 -- Create dim_residentialType table
 CREATE TABLE RE_Sales.dim_residentialType (
-	residentialType_id INT NOT NULL,
-	residentialType VARCHAR(255) -- Adjusted if it's a string code or description
+	residential_type_id INT NOT NULL,
+	residential_type VARCHAR(255) -- Adjusted if it's a string code or description
 );
 
 -- Add primary key to dim_residentialType
-ALTER TABLE RE_Sales.dim_residentialType ADD PRIMARY KEY (residentialType_id);
+ALTER TABLE RE_Sales.dim_residentialType ADD PRIMARY KEY (residential_type_id);
 
 -- Create facts_RESales table
 CREATE TABLE RE_Sales.facts_RESales (
@@ -53,8 +53,8 @@ CREATE TABLE RE_Sales.facts_RESales (
 	assessed_value numeric,
 	sales_ratio numeric,
 	location_id INT NOT NULL,
-	propertyType_id INT,
-	residentialType_id INT,
+	property_type_id INT,
+	residential_type_id INT,
 	date_id INT
 );
 
