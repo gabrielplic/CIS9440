@@ -60,3 +60,23 @@ CREATE TABLE RE_Sales.facts_RESales (
 
 -- Add primary key to facts_RESales
 ALTER TABLE RE_Sales.facts_RESales ADD PRIMARY KEY (fact_id, location_id);
+
+-- Add foreign key from facts_RESales.location_id to dim_location.location_id
+ALTER TABLE RE_Sales.facts_RESales
+ADD CONSTRAINT fk_facts_RESales_location_id
+FOREIGN KEY (location_id) REFERENCES RE_Sales.dim_location(location_id);
+
+-- Add foreign key from facts_RESales.property_type_id to dim_propertyType.property_type_id
+ALTER TABLE RE_Sales.facts_RESales
+ADD CONSTRAINT fk_facts_RESales_property_type_id
+FOREIGN KEY (property_type_id) REFERENCES RE_Sales.dim_propertyType(property_type_id);
+
+-- Add foreign key from facts_RESales.residential_type_id to dim_residentialType.residential_type_id
+ALTER TABLE RE_Sales.facts_RESales
+ADD CONSTRAINT fk_facts_RESales_residential_type_id
+FOREIGN KEY (residential_type_id) REFERENCES RE_Sales.dim_residentialType(residential_type_id);
+
+-- Add foreign key from facts_RESales.date_id to dim_date.date_id
+ALTER TABLE RE_Sales.facts_RESales
+ADD CONSTRAINT fk_facts_RESales_date_id
+FOREIGN KEY (date_id) REFERENCES RE_Sales.dim_date(date_id);
